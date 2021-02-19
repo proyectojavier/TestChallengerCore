@@ -6,7 +6,7 @@ using System;
 
 namespace ChallengerCore.App_Start
 {
-    public partial class StartUpFB
+    public partial class StartUp
     {
         public void ConfigureAuth(IAppBuilder app)
         {
