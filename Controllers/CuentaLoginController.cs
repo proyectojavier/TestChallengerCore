@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ChallengerCore.Models;
+using Firebase.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,39 +13,30 @@ namespace ChallengerCore.Controllers
     {
         private static string apiKEY = "AIzaSyAR1xn9seN6ID_IQBxU2FzAeDFlOAs7qZw";
         // GET: CuentaLogin
-        public ActionResult Index()
+
+        public ActionResult SignUp()
         {
             return View();
         }
 
-        // GET: CuentaLogin/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: CuentaLogin/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CuentaLogin/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [AllowAnonymous]
+        public async Task<ActionResult> SignUp(SignUpModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                var autho = new FirebaseAuthProvider(new FirebaseConfig(apiKEY));
 
-                return RedirectToAction("Index");
+                var a = await autho.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password, model.Name, true);
+                ModelState.AddModelError(string.Empty, "Please Verify your email");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
-        }
 
+            return View();
+        }
         // GET: CuentaLogin/Edit/5
         public ActionResult Edit(int id)
         {
@@ -50,41 +44,9 @@ namespace ChallengerCore.Controllers
         }
 
         // POST: CuentaLogin/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CuentaLogin/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+      
 
         // POST: CuentaLogin/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
     }
 }
