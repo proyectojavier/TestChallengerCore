@@ -133,7 +133,7 @@ namespace ChallengerCore.Controllers
             }
 
             // Info.
-            return this.RedirectToAction("LogOff", "Account");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
